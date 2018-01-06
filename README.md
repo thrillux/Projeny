@@ -2,29 +2,112 @@
 
 ### Features
 
-* [CHEAT SHEET](https://github.com/thrillux/Projeny_VR/blob/master/CHEAT_SHEET.md)
 * Gear VR Support
+* Helper .bat files in folder "\_Helpers (copy to project root)"
 
-### Setup
+### Installation (More detailed than original instructions)
 
-* Update my fork of this project (pull from original).  MAKE SURE YOU PRESERVE THE CHANGES FOR GEAR VR SUPPORT and THIS FILE!
-* Install python. 3.x is recommended, dunno if it'll work with later versions.
-* Copy the Python install folder path to notepad or something because you'll need the path for following instructions.  Might be found at a path like "C:\Users\MY_USER\AppData\Local\Programs\Python\Python36" or "C:\Python36".
-* Run the following post-install script manually as Administrator to avoid "import win32api" error when trying to use the built version later.  Run as Administrator: "py YOUR_PYTHON_FOLDER\Scripts\pywin32_postinstall.py -install"
-* Install Python for Windows extension from https://github.com/mhammond/pywin32/releases (MAKE SURE YOU DOWNLOAD THE INSTALLER FOR YOUR PYTHON VERSION. EXAMPLE: "pywin32-221.win-amd64-py3.6.exe" FOR PYTHON v3.6)
-* Add the folder containing pip.exe to the user PATH environment variable, if it isn't already there. Search for "pip.exe" in Windows Explorer or look for it in a folder like "YOUR_PYTHON_FOLDER\Scripts". MAKE SURE YOU ADD THE CONTAINING FOLDER PATH, NOT THE PATH TO PIP.EXE ITSELF!
-* Open command prompt.  (From PowerShell: run "cmd.exe")
-* Run in command prompt: "pip install pyyaml"
-* Open "UnityPlugin/Projeny.sln" in Visual Studio
-* Build in Release Mode
-* Add "Projeny_VR\Source\bin" folder to your user path
+1.  Update Projeny_VR fork:
+    -   Update my fork of this project (pull from original).  MAKE SURE YOU PRESERVE THE CHANGES FOR GEAR VR SUPPORT and THIS FILE!
 
-### Troubleshooting:
+2.  Install python:
+    -   3.x is recommended, dunno if it'll work with later versions.
+    -   Copy the Python install folder path to notepad or something because you'll need the path for following instructions.  Might be found at a path like "C:\Users\USER_FOLDER\AppData\Local\Programs\Python\Python36" or "C:\Python36".
+    -   Run as Administrator: "py C:\YOUR_PYTHON_FOLDER\Scripts\pywin32_postinstall.py -install" from command prompt (from PowerShell run "cmd" first).  This will fix the bug where the Python installer doesn't run the postinstall script properly, resulting in errors on lines like "import win32api".
 
-* Make sure you ran the post-install script after installing Python.
+3. Install [Python for Windows extension](https://github.com/mhammond/pywin32/releases):
+    -   MAKE SURE YOU DOWNLOAD THE INSTALLER FOR YOUR PYTHON VERSION. EXAMPLE: "pywin32-221.win-amd64-py3.6.exe" FOR PYTHON v3.6.
 
---- END OF PROJENY THRILLUX FORK NOTES ---
+4. Add User PATH values:
+    -   Add folder containing "pip.exe" to the user PATH environment variable (if it isn't already there).  Search for "pip.exe" in Windows Explorer or look for it in a folder like "YOUR_PYTHON_FOLDER\Scripts".  MAKE SURE YOU ADD THE CONTAINING FOLDER PATH, NOT THE PATH TO PIP.EXE ITSELF!
+    -   Add "c:\PROJENY_VR_FOLDER\Source\bin" folder (may not exist until you build Projeny.sln during the following steps).
 
+5. Install pyyaml:
+    -   Run as Administrator: "pip install pyyaml" from command prompt (from PowerShell run "cmd" first).
+
+6. Build Projeny.sln:
+    -   Open "UnityPlugin/Projeny.sln" in Visual Studio
+    -   Build in Release Mode.
+
+7.  Setup Unity to use prj VS project:
+    -   Open Unity and go to Edit -\> Preferences -\> External Tools
+    -   Click the dropdown next to External Script Editor
+    -   Click Browse
+    -   Navigate to the install directory of Projeny (by default this is
+        at C:\\Program Files (x86)\\Projeny) and select
+        Bin/PrjOpenInVisualStudio.bat (note that you may have to select
+        AllFiles in the bottom right dropdown)
+    -   Next to External Script Editor Args type "\$(File)" "\$(Line)"
+
+2.  Setup global Projeny.yaml (C:/Users/[Your User Name]/Projeny.yaml)
+    to point to VS ide location, e.g. (for VS 2015 on Windows 10):
+
+PathVars:\
+ UnityProjectsDir: '[ConfigDir]/UnityProjects'\
+ SharedUnityPackagesDir: '[ConfigDir]/UnityPackages'\
+ LogPath: '[ConfigDir]/PrjLog.txt'\
+ \# Required for opening VS from the editor with Projeny\
+ VisualStudioIdePath: 'C:/Program Files (x86)/Microsoft Visual Studio
+14.0/Common7/IDE/devenv.exe'
+
+-   Optional: Set a custom directory for .unitypackage files from
+    outside the Asset Store (we may use a file server for this in
+    future)\
+     ReleaseSources:
+    -   LocalFolder:\
+         Path: 'C:/MyLocalFolderSource'
+
+reference:
+[https://github.com/modesttree/Projeny\#installation](https://github.com/modesttree/Projeny#installation)
+
+### Cheat Sheet
+
+Checking out an existing projeny project:
+-----------------------------------------
+
+1.  Clone the repo
+2.  cd into repo
+3.  \$ prj --init
+4.  Open up one of the projects in the UnityProjects folder and start
+    working. The Projeny menu should be visible in Unity, and the
+    Package Manager is the UI for managing dependencies (more detail to
+    follow).
+
+Working with Projeny
+--------------------
+
+1.  When working on the project, the process is:
+    -   Identify component that needs to be created (e.g. some widget)
+    -   Create a Package for it
+    -   Create a project for it if required (e.g. if you need a test
+        scene)
+    -   If you created a project, add the dependencies to the project
+        you created, including the package itself.
+    -   If you created just a package, add that as a dependency to your
+        current project and 'update directories'
+    -   Work on the package/project as normal in the Unity editor, on
+        whichever platform you choose.
+
+2.  Repeat 1 for the other components in your overall project until
+    complete.
+
+Starting a completely new set of Projeny-based packages/projects from scratch
+-----------------------------------------------------------------------------
+
+1.  cd to folder
+2.  Init Projeny: \$ prj --createConfig
+3.  Create first project: \$ prj --project MyNewProject --createProject
+4.  Set unity settings for git - visible metafiles, force text
+    serialization.
+5.  \$ git init
+6.  Make sure PrjLog.txt is in .gitignore - this is a Projeny generated
+    logfile, don't want that in SCM
+7.  Put Projeny's version of the Unity Standard Assets (available here:
+    [https://github.com/modesttree/Projeny/releases](https://github.com/modesttree/Projeny/releases))
+    into the UnityPackage folder inside your project - and use this to
+    import Standard Assets into your project when needed.
+
+--- END OF THRILLUX FORK NOTES ---
 
 <img src="Docs/LogoWhiteWithText.png?raw=true" alt="Projeny" width="250px" height="246px"/>
 
