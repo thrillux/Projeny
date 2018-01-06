@@ -5,9 +5,11 @@
 * Added support for Gear VR projects
 * Added CHEAT_SHEET.md
 
-### Installation (Better Instructions)
+### Build & Install
 
 * Update my fork of this project (pull from original).  MAKE SURE YOU PRESERVE THE CHANGES FOR GEAR VR SUPPORT and THIS FILE!
+* Delete *.bat files from "Projeny_VR\Bin" folder.
+* Copy *.bat files from "Projeny_VR\Installer\BinFiles" to "Projeny_VR\Bin".  (Replace older bat's with newer ones)
 * Install python. 3.x is recommended, dunno if it'll work with later versions.
 * Install Python for Windows extension from https://github.com/mhammond/pywin32/releases (MAKE SURE YOU DOWNLOAD THE INSTALLER FOR YOUR PYTHON VERSION. EXAMPLE: "pywin32-221.win-amd64-py3.6.exe" FOR PYTHON v3.6)
 * Add the path to the folder containing pip.exe to the user PATH environment variable, if it isn't already there. Search for "pip.exe" in Windows Explorer or look for it in a folder like "C:\Users\MYUSERNAME\AppData\Local\Programs\Python\Python36\Scripts". MAKE SURE YOU ADD THE CONTAINING FOLDER PATH, NOT THE PATH TO PIP.EXE ITSELF!
