@@ -111,6 +111,10 @@ namespace Projeny.Internal
 
         static void CheckJunction(DirectoryInfo dir, List<DirectoryInfo> badDirectories, List<string> brokenJunctions)
         {
+            // ADDED TO SUPPORT GEAR VR:
+            if(dir.Name == "Android")
+                return;
+
             if (JunctionPoint.Exists(dir.FullName))
             {
                 if (!Directory.Exists(JunctionPoint.GetTarget(dir.FullName)))
