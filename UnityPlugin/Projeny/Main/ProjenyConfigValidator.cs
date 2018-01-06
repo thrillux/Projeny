@@ -73,15 +73,17 @@ namespace Projeny.Internal
                             continue;
                         }
 
-                        if (pluginNameLowered == "android" || pluginNameLowered == "webgl")
-                        {
-                            foreach (var platformDir in pluginDir.GetDirectories())
-                            {
-                                CheckJunction(platformDir, badDirectories, brokenJunctions);
-                            }
+                        // Thrillux Fork Modification: SUPPORT GEAR VR
 
-                            continue;
-                        }
+                        //if (pluginNameLowered == "android" || pluginNameLowered == "webgl")
+                        //{
+                        //    foreach (var platformDir in pluginDir.GetDirectories())
+                        //    {
+                        //        CheckJunction(platformDir, badDirectories, brokenJunctions);
+                        //    }
+
+                        //    continue;
+                        //}
 
                         CheckJunction(pluginDir, badDirectories, brokenJunctions);
                     }
@@ -111,10 +113,6 @@ namespace Projeny.Internal
 
         static void CheckJunction(DirectoryInfo dir, List<DirectoryInfo> badDirectories, List<string> brokenJunctions)
         {
-            // ADDED TO SUPPORT GEAR VR:
-            if(dir.Name == "Android")
-                return;
-
             if (JunctionPoint.Exists(dir.FullName))
             {
                 if (!Directory.Exists(JunctionPoint.GetTarget(dir.FullName)))
